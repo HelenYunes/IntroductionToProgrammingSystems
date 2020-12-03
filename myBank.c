@@ -198,7 +198,7 @@ printf(" Failed to read the interest rate\n");
 {
 for(int i=0; i<50;i++){
 if(BankAccounts[i][0]==1){
-printf("\nThe balance of account number %d is: %0.2lf\n",(i+901), BankAccounts[i][1]);
+printf("The balance of account number %d is: %0.2lf\n",(i+901), BankAccounts[i][1]);
 }
 }
 }
