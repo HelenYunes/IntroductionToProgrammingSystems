@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "myBank.h"
 
@@ -157,16 +158,25 @@ void Withdrawal()
                 }
                 else
                 {
-                    double amount = 0;
-                    printf(" Please enter the amount to withdraw:");
-                    scanf("\n%lf", &amount);
-                    int temp = (int)(amount * 100);
-                    if ((temp / 100) > BankAccounts[AccountNumber][1])
-                        printf(" Cannot withdraw more than the balance\n");
-                    else
+                    if (BankAccounts[AccountNumber][0] == 1)
                     {
-                        BankAccounts[AccountNumber][1] = BankAccounts[AccountNumber][1] - (temp / 100);
-                        printf(" The new balance is: %0.2lf\n", BankAccounts[AccountNumber][1]);
+                        double amount = 0;
+                        printf(" Please enter the amount to withdraw:");
+                        if ((scanf("\n%lf", &amount)) == 1)
+                        {
+                            int temp = (int)(amount * 100);
+                            if ((temp / 100) > BankAccounts[AccountNumber][1])
+                                printf(" Cannot withdraw more than the balance\n");
+                            else
+                            {
+                                BankAccounts[AccountNumber][1] = BankAccounts[AccountNumber][1] - (temp / 100);
+                                printf(" The new balance is: %0.2lf\n", BankAccounts[AccountNumber][1]);
+                            }
+                        }
+                        else
+                        {
+                            printf(" Failed to read the amount\n");
+                        }
                     }
                 }
             }
@@ -197,9 +207,12 @@ void CloseAccount()
             }
             else
             {
-                BankAccounts[AccountNumber][0] = 0;
-                BankAccounts[AccountNumber][1] = 0;
-                printf(" Closed account number %d\n", AccountNumber + 901);
+                if (BankAccounts[AccountNumber][0] == 1)
+                {
+                    BankAccounts[AccountNumber][0] = 0;
+                    BankAccounts[AccountNumber][1] = 0;
+                    printf(" Closed account number %d\n", AccountNumber + 901);
+                }
             }
         }
     }
@@ -226,8 +239,7 @@ void Interest()
 
                 if (BankAccounts[i][0] == 1)
                 {
-                    int NewRate = rate + 100;
-                    BankAccounts[i][1] = ((BankAccounts[i][1] * NewRate) / 100);
+                    BankAccounts[i][1] = ((BankAccounts[i][1] * (rate + 100)) / 100);
                 }
             }
         }
@@ -240,12 +252,11 @@ void Interest()
 
 void PrintAccounts()
 {
-    for (int i = 0; i < 50; i++)
+    int i = 0;
+    while (BankAccounts[i][0] == 1 && i < 50)
     {
-        if (BankAccounts[i][0] == 1)
-        {
-            printf("The balance of account number %d is: %0.2lf\n", (i + 901), BankAccounts[i][1]);
-        }
+        printf("The balance of account number %d is: %0.2lf\n", (i + 901), BankAccounts[i][1]);
+        i++;
     }
 }
 
