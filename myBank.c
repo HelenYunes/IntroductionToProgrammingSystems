@@ -194,24 +194,31 @@ void CloseAccount()
     printf("Please enter account number:");
     if (scanf("\n%d", &AccountNumber) == 1)
     {
-        AccountNumber = AccountNumber - 901;
-        if ((AccountNumber < 0 || AccountNumber >= 50))
+        if (AccountNumber < 0)
         {
             printf(" Invalid account number\n");
         }
         else
         {
-            if (BankAccounts[AccountNumber][0] == 0)
+            AccountNumber = AccountNumber - 901;
+            if ((AccountNumber < 0 || AccountNumber >= 50))
             {
-                printf(" This account is already closed\n");
+                printf(" Invalid account number\n");
             }
             else
             {
-                if (BankAccounts[AccountNumber][0] == 1)
+                if (BankAccounts[AccountNumber][0] == 0)
                 {
-                    BankAccounts[AccountNumber][0] = 0;
-                    BankAccounts[AccountNumber][1] = 0;
-                    printf(" Closed account number %d\n", AccountNumber + 901);
+                    printf(" This account is already closed\n");
+                }
+                else
+                {
+                    if (BankAccounts[AccountNumber][0] == 1)
+                    {
+                        BankAccounts[AccountNumber][0] = 0;
+                        BankAccounts[AccountNumber][1] = 0;
+                        printf(" Closed account number %d\n", AccountNumber + 901);
+                    }
                 }
             }
         }
@@ -234,12 +241,15 @@ void Interest()
         }
         else
         {
-            for (int i = 0; i < 50; i++)
+            if (rate > 0)
             {
-
-                if (BankAccounts[i][0] == 1)
+                for (int i = 0; i < 50; i++)
                 {
-                    BankAccounts[i][1] = ((BankAccounts[i][1] * (rate + 100)) / 100);
+
+                    if (BankAccounts[i][0] == 1)
+                    {
+                        BankAccounts[i][1] = ((BankAccounts[i][1] * (rate + 100)) / 100);
+                    }
                 }
             }
         }
